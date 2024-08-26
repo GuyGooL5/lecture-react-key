@@ -22,8 +22,8 @@ function MainExample() {
 
   return (
     <div className="fixed inset-0 flex">
-      <div className="flex-1 bg-background p-4">
-        <h1 className="text-3xl font-bold">Manage Users</h1>
+      <div className="flex-1 p-4">
+        <h1 className="text-3xl font-bold mb-2">Manage Users</h1>
         <div className="flex flex-col gap-2">
           {users.map((user, index) => (
             <UserItem
