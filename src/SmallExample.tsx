@@ -2,84 +2,84 @@ import React from "react";
 import { Button } from "./components/Button";
 
 interface Counter {
-  id: string;
-  count: number;
+	name: string;
+	count: number;
 }
 
-const data: Counter[] = ["john", "jane", "alice", "bob"].map((id) => ({
-  id,
-  count: 0,
+const data: Counter[] = ["John", "Jane", "Alice", "Bob"].map((name) => ({
+	name,
+	count: 0,
 }));
 
 const SmallExample = () => {
-  const [counters, setCounters] = React.useState<Counter[]>(data);
+	const [counters, setCounters] = React.useState<Counter[]>(data);
 
-  const [currentCounterId, setCurrentCounterId] = React.useState<string | null>(
-    null
-  );
+	const [currentCounterName, setCurrentCounterName] = React.useState<
+		string | null
+	>(null);
 
-  const currentCounterItem = React.useMemo(
-    () => counters.find((c) => c.id === currentCounterId),
-    [counters, currentCounterId]
-  );
+	const currentCounterItem = React.useMemo(
+		() => counters.find((c) => c.name === currentCounterName),
+		[counters, currentCounterName],
+	);
 
-  const handleSave = (data: Counter) => {
-    setCounters((prev) => prev.map((c) => (c.id === data.id ? data : c)));
-  };
+	const handleSave = (data: Counter) => {
+		setCounters((prev) => prev.map((c) => (c.name === data.name ? data : c)));
+	};
 
-  return (
-    <div className="p-2">
-      <div className="space-x-2">
-        {counters.map(({ id, count }) => (
-          <Button
-            key={id}
-            variant="outline"
-            onClick={() => setCurrentCounterId(id)}
-          >
-            {id} ({count})
-          </Button>
-        ))}
-      </div>
-      {currentCounterItem && (
-        <FormComponent
-          // key={currentCounterItem.id}
-          initialData={currentCounterItem}
-          onSave={handleSave}
-          onCancel={() => setCurrentCounterId(null)}
-        />
-      )}
-    </div>
-  );
+	return (
+		<div className="p-2">
+			<div className="space-x-2">
+				{counters.map(({ name: id, count }) => (
+					<Button
+						key={id}
+						variant="outline"
+						onClick={() => setCurrentCounterName(id)}
+					>
+						{id} ({count})
+					</Button>
+				))}
+			</div>
+			{currentCounterItem && (
+				<FormComponent
+					// key={currentCounterItem.name}
+					initialData={currentCounterItem}
+					onSave={handleSave}
+					onCancel={() => setCurrentCounterName(null)}
+				/>
+			)}
+		</div>
+	);
 };
 
 export default SmallExample;
 
 interface FormComponentProps {
-  initialData: Counter;
-  onSave: (data: Counter) => void;
-  onCancel: () => void;
+	initialData: Counter;
+	onSave: (data: Counter) => void;
+	onCancel: () => void;
 }
 const FormComponent = ({
-  initialData,
-  onSave,
-  onCancel,
+	initialData,
+	onSave,
+	onCancel,
 }: FormComponentProps) => {
-  const id = initialData.id;
-  const [count, setCount] = React.useState(initialData.count);
+	const [count, setCount] = React.useState(initialData.count);
+	const name = initialData.name;
 
-  return (
-    <div className="space-y-2">
-      <p>
-        {id} has been clicked {count} times
-      </p>
-      <div className="space-x-2">
-        <Button onClick={() => setCount(count + 1)}>Increment</Button>
-        <Button onClick={() => setCount(count - 1)}>Decrement</Button>
-      </div>
-      <div className="space-x-2">
-        <Button onClick={() => onSave({ id, count })}>Save</Button>
-        <Button onClick={onCancel}>Cancel</Button>
-      </div>
-    </div>
-  );
+	return (
+		<div className="space-y-2">
+			<p>
+				{name} has been clicked {count} times
+			</p>
+			<div className="space-x-2">
+				<Button onClick={() => setCount(count + 1)}>Increment</Button>
+				<Button onClick={() => setCount(count - 1)}>Decrement</Button>
+			</div>
+			<div className="space-x-2">
+				<Button onClick={() => onSave({ name, count })}>Save</Button>
+				<Button onClick={onCancel}>Cancel</Button>
+			</div>
+		</div>
+	);
 };
